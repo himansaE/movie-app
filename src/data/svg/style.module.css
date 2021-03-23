@@ -1,0 +1,36 @@
+.svg_loader_svg {
+
+    animation: full_rotate 2s infinite;
+}
+
+circle.svg_loader_circle {
+    stroke-dasharray: 100;
+    transition: 1s;
+    animation: loader_anim 1.5s ease-in-out infinite;
+    transform-origin: center;
+}
+
+@keyframes loader_anim {
+
+    0% {
+        stroke-dasharray: 1, 150;
+        stroke-dashoffset: 0;
+    }
+
+    50% {
+        stroke-dasharray: 90, 150;
+        stroke-dashoffset: -35;
+
+    }
+
+    100% {
+        stroke-dasharray: 90, 150;
+        stroke-dashoffset: -124;
+    }
+}
+
+@keyframes full_rotate {
+    100% {
+        transform: rotate(360deg);
+    }
+}

@@ -1,0 +1,107 @@
+.popup {
+    position: fixed;
+    padding: 0 !important;
+    backdrop-filter: blur(2px) brightness(0.5);
+    background-color: #00000045;
+    height: 100%;
+    width: 100%;
+    z-index: 3000;
+    top: 0;
+    left: 0;
+}
+
+.con {
+    width: 90vw;
+    max-width: 400px;
+    background-color: var(--login-card);
+    border-radius: 5px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: 0 0 30px #00000099;
+    animation: pop 400ms;
+    user-select: none;
+}
+
+@keyframes pop {
+    0% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0.3);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1)
+    }
+}
+
+.head {
+    display: flex;
+    padding: 5px;
+    align-items: center;
+}
+
+.head h2 {
+    margin-left: 25px;
+    color: var(--text-color-dim);
+    font-weight: 100;
+    font-family: ''Poppins', sans-serif';
+}
+
+.I_CLOSE {
+    background-color: var(--card-background);
+    height: 35px;
+    width: 35px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    margin: 3px 5px 0px auto;
+    filter: brightness(1);
+    transition: 250ms;
+}
+
+.I_CLOSE:hover {
+    filter: brightness(1.5);
+}
+
+.body {
+
+    padding: 20px 30px;
+    /*  flex-wrap: wrap;
+     display: flex; */
+    display: grid;
+    grid-template-columns: repeat(auto-fit, 100px);
+    justify-content: center;
+    max-height: 300px;
+    overflow-y: auto;
+    margin-bottom: 15px;
+}
+
+.item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 12px 5px 5px;
+    margin: 5px 6px;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: rgba(255, 255, 255, 0);
+}
+
+.item:hover {
+    background-color: var(--card-background-dim);
+}
+
+.icon svg {
+    transform: scale(1.5);
+}
+
+.name {
+    font-size: 13px;
+    padding-top: 5px;
+    color: var(--text-color-low);
+    font-family: ''Poppins', sans-serif';
+    text-align: center;
+}

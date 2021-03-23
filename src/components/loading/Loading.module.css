@@ -1,0 +1,31 @@
+.bar {
+    width: 100vw;
+    height: 2px;
+    background-color: var(--background);
+    position: absolute;
+    z-index: 100;
+}
+
+.in {
+    height: 100%;
+    width: 20%;
+    background-color: var(--line-loader-bg);
+    animation: progress 1s infinite;
+    position: absolute;
+}
+
+@keyframes progress {
+    0% {
+        left: 0;
+        width: 7%;
+    }
+
+    50% {
+        width: 40%;
+    }
+
+    100% {
+        left: 100%;
+        width: 2%;
+    }
+}

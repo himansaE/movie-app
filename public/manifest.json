@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "Movie App",
+  "name": "Movie App",
   "icons": [
     {
       "src": "favicon.ico",
@@ -8,12 +8,12 @@
       "type": "image/x-icon"
     },
     {
-      "src": "logo192.png",
+      "src": "/android-chrome-192x192.png",
       "type": "image/png",
       "sizes": "192x192"
     },
     {
-      "src": "logo512.png",
+      "src": "/android-chrome-512x512.png",
       "type": "image/png",
       "sizes": "512x512"
     }
@@ -21,5 +21,21 @@
   "start_url": ".",
   "display": "standalone",
   "theme_color": "#000000",
-  "background_color": "#ffffff"
+  "background_color": "#2d2d2d",
+  "shortcuts": [
+    {
+      "name": "Browse movies",
+      "short_name": "Home",
+      "description": "Browse Movies as you like",
+      "url": "/",
+      "icons": [{ "src": "/icons/movie_icon.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Watchlist",
+      "short_name": "Bookmark",
+      "description": "Movies you saved for later",
+      "url": "/watchlist",
+      "icons": [{ "src": "/icons/watchlist_icon.png", "sizes": "192x192" }]
+    }
+  ]
 }

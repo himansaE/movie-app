@@ -1,0 +1,240 @@
+.main {
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 22px 0;
+}
+
+.main * {
+    user-select: none;
+}
+
+.title {
+    color: var(--text-color);
+    font-size: 1.5em;
+    font-weight: 100;
+    user-select: none;
+}
+
+.title:hover {
+    color: var(--text-color-dim);
+}
+
+.card_image_con {
+    width: 115px;
+    height: 173px;
+    overflow: hidden;
+    border-radius: 6px;
+    position: relative;
+    background-color: #00000033;
+}
+
+.card_image {
+    width: 115px;
+    height: 173px;
+    border-radius: 6px;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    transition: 300ms;
+    box-shadow: 0 0 0 transparent;
+    border: none;
+    outline: none;
+}
+
+
+.list {
+    padding: 0px 20px;
+    overflow: hidden;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, 135px);
+    --pc: center;
+    place-content: var(--pc);
+    grid-gap: 0 5px;
+}
+
+.wl_text {
+    text-align: center;
+    font-size: 1.2em;
+    color: var(--text-color-low);
+}
+
+.wl_btn_con {
+    display: flex;
+    justify-content: center;
+    margin: 20px;
+}
+
+.wl_btn_con a {
+    background-color: var(--play-btn-color);
+    color: white;
+    padding: 6px 24px;
+    border-radius: 4px;
+}
+
+.list::-webkit-scrollbar {
+    height: 3px;
+}
+
+@media (hover: none) {
+    .list {
+        display: flex;
+        padding: 0px 20px;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        flex-wrap: nowrap;
+        --pc: flex-start;
+        place-content: --pc;
+    }
+
+    .list::after {
+        content: "";
+        display: block;
+        height: 100px;
+        min-width: 20px;
+    }
+
+    .list::-webkit-scrollbar {
+        height: 0px;
+    }
+}
+
+.movie_item {
+    margin-bottom: 15px;
+}
+
+.name {
+    color: var(--text-color-dim);
+    text-align: center;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    -webkit-line-clamp: 2;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    padding: 0 5px;
+    width: 115px;
+}
+
+
+
+.card {
+    margin: 15px 15px;
+    scroll-snap-align: center;
+}
+
+.card_data_con {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 300ms;
+    background-color: transparent;
+    filter: blur(0px);
+    opacity: 0;
+    transition-delay: 0ms;
+}
+
+.card_rating {
+    color: white;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 20px;
+    transform: scale(0.3);
+    transition: 600ms;
+}
+
+.card a:hover .card_image {
+    box-shadow: 3px 4px 7px #0000003b, -3px 0px 7px #0000003b
+}
+
+.card:hover .card_image {
+    transform: scale(1.2);
+    filter: brightness(0.5);
+    transition-delay: 300ms;
+}
+
+.card:hover .card_data_con {
+    transition-delay: 300ms;
+    backdrop-filter: blur(1px);
+    background-color: #0000005e;
+    opacity: 1;
+    border-radius: 6px;
+}
+
+.card:hover .card_rating {
+    transform: scale(1);
+    transition: 300ms;
+    transition-delay: 100ms;
+}
+
+.Ml_con {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+}
+
+.I_loader {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 22px 0;
+}
+
+.title_name {
+    color: var(--text-color);
+    margin: 10px 10px 10px 6vw;
+}
+
+.reload_btn {
+    user-select: none;
+    padding: 12px 15px;
+    border-radius: 4px;
+    color: #fd9494;
+    transition: 300ms;
+}
+
+.reload_btn:hover {
+    background-color: #fd949433;
+    color: var(--text-color);
+    max-width: fit-content;
+}
+
+.loadError {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.ErrorName {
+    display: flex;
+    color: var(--text-color);
+}
+
+.next_icon {
+    height: 32px;
+    width: 32px;
+    background-color: var(--background);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    margin: 0 10vw 0 auto;
+}
+
+.next_icon:hover {
+    filter: brightness(1.5);
+    box-shadow: 0 0 5px #00000042;
+}
+
+.url_head a:nth-child(1) {
+    margin: 0 10vw;
+}
+
+.url_head a:nth-child(2) {
+    display: flex;
+    margin: 0 0 0 auto;
+}
