@@ -32,7 +32,11 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "deploy": "firebase deploy",
+    "fulldeploy": "react-scripts build && node ./src/sw-build.js && firebase deploy",
+    "testDeploy": "react-scripts build && node ./src/sw-build.js && firebase hosting:channel:deploy test",
+    "emulate": "firebase emulators:start"
   },
   "eslintConfig": {
     "extends": [
