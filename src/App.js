@@ -20,7 +20,6 @@ const ResetPass = React.lazy(() => import("./components/auth/Resetpass"));
 const Verify = React.lazy(() => import("./components/auth/verify"));
 const Settings = React.lazy(() => import("./components/settings/Settings"));
 
-
 function App() {
   return (
     <div className="App">
