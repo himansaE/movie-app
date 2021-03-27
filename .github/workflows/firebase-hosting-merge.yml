@@ -17,6 +17,8 @@ jobs:
         run: npm run build
       - name: Run snapshots
         run: npm run snap
+      - name: changing index.html
+        run: rm build/index.html && mv build/200.html build/index.html
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: "${{ secrets.GITHUB_TOKEN }}"
