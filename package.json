@@ -58,5 +58,14 @@
       "last 1 safari version"
     ]
   },
-  "devDependencies": {}
+  "devDependencies": {},
+  "reactSnap": {
+    "puppeteerArgs": [
+      "--no-sandbox",
+      "--disable-setuid-sandbox"
+    ],
+    "concurrency": 1,
+    "inlineCss": false,
+    "skipThirdPartyRequests": false
+  }
 }
