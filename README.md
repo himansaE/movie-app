@@ -17,4 +17,6 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 > ## Screenshots
 
-![screenshot_00](/../main/public/screenshot/screenshot_00.webp?raw=true)
+<center>
+<img src="/../main/public/screenshot/screenshot_00.webp?raw=true"  height=200 alt="screenshot_00">
+</center>
