@@ -15,10 +15,6 @@ jobs:
         run: npm install
       - name: Building CRA for Movie app
         run: npm run build
-      - name: Run snapshots
-        run: npm run snap
-      - name: Changing index.html
-        run: del build/index.html && rename  build/200.html index.html
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: "${{ secrets.GITHUB_TOKEN }}"
