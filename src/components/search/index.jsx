@@ -13,6 +13,7 @@ import {
   I_SORT,
   I_HQ,
   I_ASC,
+  I_CLIPBOARD,
 } from "../../data/svg/svg";
 import { Select } from "../input/index";
 import CANT_FIND from "../../data/svg/cant-find.json";
@@ -32,6 +33,7 @@ class Search extends Component {
       filter: false,
       error: false,
       root_loading: false,
+      clipboard: false,
     };
     this.q = {
       query_term: "",
@@ -54,6 +56,20 @@ class Search extends Component {
   getParm = (parm) => {
     return new URL(window.location).searchParams.get(parm) || "";
   };
+  clipboardChange = () => {
+    if (navigator.clipboard && document.hasFocus()) {
+      navigator.clipboard.readText().then((r) => {
+        if (r.length < 60) {
+          this.setState({ clipboard: r });
+          console.log(
+            "%c clipboard ",
+            "background-color: #2d2a63; border-radius:3px;margin-right:6px",
+            r
+          );
+        }
+      });
+    }
+  };
   componentDidMount() {
     document.title = "Search Movies";
     FBAnalytics("search");
@@ -72,12 +88,13 @@ class Search extends Component {
       this.searchIt();
     }
     window.addEventListener("popstate", this.changeLocation);
-
     let options = {
       root: this.top_node.current,
       rootMargin: "0px",
       threshold: 1.0,
     };
+    this.clipboardChange();
+    window.addEventListener("focus", this.clipboardChange);
 
     this.observer = new IntersectionObserver((e) => {
       if (
@@ -101,6 +118,7 @@ class Search extends Component {
   }
   componentWillUnmount() {
     window.removeEventListener("popstate", this.changeLocation);
+    window.removeEventListener("focus", this.clipboardChange);
   }
   changeLocation = (e) => {
     var query = this.getParm("query_term");
@@ -179,7 +197,6 @@ class Search extends Component {
       page: 1,
     });
     this.q.page = 1;
-    console.log(this.q);
 
     get_results(this.q)
       .then((r) => {
@@ -409,6 +426,25 @@ class Search extends Component {
               </div>
             </div>
           </div>
+          {this.state.clipboard !== false ? (
+            <div className={Styles.clipboard_con}>
+              <div
+                className={Styles.clipboard}
+                onClick={() => {
+                  this.q.query_term = this.state.clipboard;
+                  this.searchIt();
+                  this.setState({
+                    value: this.state.clipboard,
+                    clipboard: false,
+                  });
+                }}
+              >
+                <I_CLIPBOARD w="19" />
+                <div className={Styles.clipboard_t}>{this.state.clipboard}</div>
+              </div>
+            </div>
+          ) : undefined}
+
           {this.state.root_loading ? (
             <div
               style={{

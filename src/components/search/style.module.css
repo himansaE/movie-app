@@ -281,3 +281,42 @@
     color: var(--text-color-dim);
     background-color: rgba(122, 122, 122, 0.192);
 }
+
+.clipboard {
+    padding: 3px 17px;
+    border: 2px solid var(--text-color-low);
+    border-radius: 1em;
+    text-align: center;
+    max-width: 90vw;
+    overflow: hidden;
+    display: flex;
+    grid-gap: 12px;
+    gap: 12px;
+    -webkit-user-select: none;
+    user-select: none;
+    cursor: copy;
+    color: var(--text-color-dim);
+    transition: 150ms;
+}
+
+.clipboard_con {
+    display: flex;
+    margin: 22px 0;
+    justify-content: center;
+}
+
+.clipboard_t {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.clipboard_con svg {
+    min-width: 19px;
+    fill: var(--text-color-low);
+}
+
+.clipboard:hover {
+    background-color: var(--card-background);
+    color: var(--text-color);
+}
