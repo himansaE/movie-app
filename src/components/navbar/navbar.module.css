@@ -71,17 +71,22 @@
 
 .searchbar {
     margin-left: auto;
-    margin-right: 22px;
+    margin-right: 10px;
     height: 39px;
     width: 32px;
+    align-items: center;
+    display: flex;
     align-items: center;
 
 }
 
+.searchbar a {
+    height: 32px;
+    width: 32px;
+}
 
 .searchIcon {
     position: absolute;
-    transform: translate(13px, 4px);
     background-color: #00000000;
     border-radius: 50%;
     width: 32px;
@@ -103,6 +108,11 @@
     border-radius: 50%;
     cursor: pointer;
     margin-right: 2vw;
+    outline: none;
+}
+
+.userIcon:focus {
+    box-shadow: 0 0 6px black;
 }
 
 .userIcon:hover {
@@ -205,6 +215,7 @@
     letter-spacing: 0.25px;
     display: block;
     padding: 5px;
+    white-space: nowrap;
 }
 
 .p_userIcon {
@@ -213,6 +224,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+
 }
 
 .p_userIcon svg {

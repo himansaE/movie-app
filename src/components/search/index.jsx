@@ -32,6 +32,7 @@ class Search extends Component {
       still_loading: false,
       filter: false,
       error: false,
+      after_err: false,
       root_loading: false,
       clipboard: false,
     };
@@ -59,7 +60,7 @@ class Search extends Component {
   clipboardChange = () => {
     if (navigator.clipboard && document.hasFocus()) {
       navigator.clipboard.readText().then((r) => {
-        if (r.length < 60) {
+        if (r.length < 60 && r.trim !== "" && this.state.value !== r) {
           this.setState({ clipboard: r });
           console.log(
             "%c clipboard ",
@@ -102,17 +103,21 @@ class Search extends Component {
         e[0].intersectionRatio === 1 &&
         this.state.page * 20 < this.state.count
       ) {
-        this.setState({ still_loading: true });
+        this.setState({ still_loading: true, after_err: false });
         let dd = Object.assign(this.q, { page: this.state.page + 1 });
 
-        get_results(dd).then((r) => {
-          this.setState({
-            result: this.removeDup([...this.state.result, ...r.movies]),
-            count: r.movie_count,
-            page: r.page_number,
-            still_loading: false,
+        get_results(dd)
+          .then((r) => {
+            this.setState({
+              result: this.removeDup([...this.state.result, ...r.movies]),
+              count: r.movie_count,
+              page: r.page_number,
+              still_loading: false,
+            });
+          })
+          .catch(() => {
+            this.setState({ after_err: true, still_loading: false });
           });
-        });
       }
     }, options);
   }
@@ -504,13 +509,22 @@ class Search extends Component {
                 <h1 style={{ textAlign: "center" }}>"No Result Found"</h1>
               </div>
             ) : (
-              ""
+              <> </>
             )}
             {this.state.page * 20 < this.state.count &&
             this.state.count !== undefined &&
-            this.state.result.length > 0 ? (
+            this.state.result.length > 0 &&
+            !this.state.after_err ? (
               <div className={Styles.loader} ref={this.loader}>
                 <Loader h="30" />
+              </div>
+            ) : this.state.after_err ? (
+              <div>
+                {
+                  //todo connection err
+                  <>coo</>
+                }
+                ef
               </div>
             ) : (
               <div></div>

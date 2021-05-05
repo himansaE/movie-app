@@ -14,7 +14,7 @@ export function MovieList(props) {
           <Link to={props.link}>
             <h1 className={Styles.title}>{props.title}</h1>
           </Link>
-          <Link to={props.link}>
+          <Link to={props.link} title={props.title}>
             <div className={Styles.next_icon}>
               <I_NEXT />
             </div>

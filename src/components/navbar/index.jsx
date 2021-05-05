@@ -18,7 +18,7 @@ class Navbar extends Component {
     this.state = {
       userPOP: false,
       currentUser: false,
-      showBack:false
+      showBack: false,
     };
   }
   componentDidMount() {
@@ -66,7 +66,13 @@ class Navbar extends Component {
       <header>
         <nav>
           <div className={Styles.navbar}>
-            <div className={cssClass(Styles.back_btn,this.state.showBack?Styles.back_btn_show:"")} role="button">
+            <div
+              className={cssClass(
+                Styles.back_btn,
+                this.state.showBack ? Styles.back_btn_show : ""
+              )}
+              role="button"
+            >
               <I_BACK_ARROW />
             </div>
             <Link to="/" className={Styles._logo_}>
@@ -94,7 +100,11 @@ class Navbar extends Component {
               </Route>
               <Route path="/">
                 <div className={Styles.searchbar}>
-                  <Link to="/search" className={Styles.searchBtn}>
+                  <Link
+                    to="/search"
+                    className={Styles.searchBtn}
+                    title="search"
+                  >
                     <div className={Styles.searchIcon}>
                       <I_SEARCH h={20} w={20} />
                     </div>
@@ -103,11 +113,16 @@ class Navbar extends Component {
               </Route>
             </Switch>
             <div
+              tabIndex="0"
               className={cssClass(
                 Styles.userIcon,
                 this.state.userPOP ? Styles.active : ""
               )}
               onClick={(e) => {
+                e.stopPropagation();
+                this.setState({ userPOP: !this.state.userPOP });
+              }}
+              onFocus={(e) => {
                 e.stopPropagation();
                 this.setState({ userPOP: !this.state.userPOP });
               }}

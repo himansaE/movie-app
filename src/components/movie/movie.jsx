@@ -374,6 +374,7 @@ class Movie extends Component {
             <div className={Styles.image_data}>
               <iframe
                 className={Styles.ytd_player}
+                lazy={true}
                 src={`https://www.youtube.com/embed/${this.state.data.yt_trailer_code}?autoplay=0&showinfo=0&frameborder="0"&controls=1&loop=1&modestbranding=1&iv_load_policy=3&theme=light&color=white"`}
                 allowFullScreen={true}
                 title="Trailer"
