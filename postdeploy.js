@@ -1,4 +1,4 @@
-const cssPath = "build\\static\\css";
+const cssPath = ".\\build\\static\\css";
 const fs = require("fs");
 const path = require("path");
 
@@ -10,5 +10,5 @@ fs.readdir(cssPath, (err, files) => {
       fs.appendFileSync(css_file, "\n  ");
     }
   });
-  console.log("predeploy done.");
+  console.log("postdeploy done.");
 });
