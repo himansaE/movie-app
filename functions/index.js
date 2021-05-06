@@ -1,5 +1,7 @@
+/* eslint-disable object-curly-spacing */
+/* eslint-disable indent */
+/* eslint-disable no-console */
 const functions = require("firebase-functions");
-const axios = require("axios").default;
 const firebase = require("firebase-admin");
 firebase.initializeApp();
 // exports.helloWorld = functions.https.onRequest((request, response) => {
