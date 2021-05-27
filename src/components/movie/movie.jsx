@@ -34,13 +34,9 @@ import Error404 from "../404/Error404";
 import { MovieList } from "../main/main";
 import cssClass from "../../functions/extra/cssClass";
 import Share from "../share/share";
-import {
-  getLike,
-  getUserData,
-  removeLike,
-  setLike,
-} from "../../functions/requests/FBReq";
-
+import { getLike, removeLike, setLike } from "../../functions/requests/FBReq";
+import { Helmet } from "react-helmet";
+import ConnectionError from "../ConnectionError/ConnectoinError";
 class Movie extends Component {
   constructor() {
     super();
@@ -57,6 +53,7 @@ class Movie extends Component {
       sub: undefined,
       scrollPos: 0,
       share: false,
+      connection: true,
     };
     this.ref = createRef();
     this.image_data_con = createRef();
@@ -67,7 +64,7 @@ class Movie extends Component {
   }
 
   componentDidMount() {
-    getUserData();
+    // getUserData();
     this.loadData();
     window.addEventListener("linkXChange", this.loadData);
     window.addEventListener("popstate", this.triggerXChange);
@@ -108,27 +105,29 @@ class Movie extends Component {
       like: false,
       watchList: false,
       sub: undefined,
+      connection: true,
     });
     this.id = this.props.match.params.data;
-    if (e) this.id = e.detail.id;
+    if (e?.detail?.id) this.id = e.detail.id;
     this.setState({ id: this.id });
-    get_movie_details({ id: this.id }).then((r) => {
-      if (r.title === null)
-        return ReactDOM.render(<Error404 />, this.ref.current);
-      this.setState({ data: r }, () => {
-        this.img_scroll({ target: this.image_data_con.current });
-      });
-      document.title = `${this.state.data.title_long}`;
-      if (firebase.auth().currentUser) {
-        getLike(this.id).then((r) => {
-          console.log(r);
-          this.setState({ like: r.liked, watchList: r.watchlist });
+    get_movie_details({ id: this.id })
+      .then((r) => {
+        if (r.title === null)
+          return ReactDOM.render(<Error404 />, this.ref.current);
+        this.setState({ data: r }, () => {
+          this.img_scroll({ target: this.image_data_con.current });
         });
-      }
-      get_suggestions(this.id).then((r) => this.setState({ suggestions: r }));
+        if (firebase.auth().currentUser) {
+          getLike(this.id).then((r) => {
+            console.log(r);
+            this.setState({ like: r.liked, watchList: r.watchlist });
+          });
+        }
+        get_suggestions(this.id).then((r) => this.setState({ suggestions: r }));
 
-      FBAnalytics("Movie visit");
-    });
+        FBAnalytics("Movie visit");
+      })
+      .catch((err) => this.setState({ connection: false }));
   };
   img_scroll = (e) => {
     if (this.image_next_btn && this.image_per_btn) {
@@ -148,6 +147,9 @@ class Movie extends Component {
     }
   };
   render() {
+    if (!this.state.connection) {
+      return <ConnectionError retry={this.loadData} />;
+    }
     if (this.state.data === undefined) {
       return (
         <div
@@ -191,6 +193,28 @@ class Movie extends Component {
           e.target.style.setProperty("--scroll_pos", e.target.scrollTop);
         }}
       >
+        <Helmet
+          title={`${this.state.data.title} - ( ${this.state.data.year} )`}
+          meta={[
+            {
+              property: "og:title",
+              content: `${this.state.data.title} - ( ${this.state.data.year} )`,
+            },
+            {
+              property: "og:image",
+              content: this.state.data.medium_cover_image,
+            },
+            {
+              property: "twitter:title",
+              content: `${this.state.data.title} - ( ${this.state.data.year} )`,
+            },
+            {
+              property: "twitter:image",
+              content: this.state.data.medium_cover_image,
+            },
+          ]}
+        />
+
         <div className={Styles.header_con}>
           <div
             className={Styles.background}
@@ -374,7 +398,7 @@ class Movie extends Component {
             <div className={Styles.image_data}>
               <iframe
                 className={Styles.ytd_player}
-                lazy={true}
+                lazy={"true"}
                 src={`https://www.youtube.com/embed/${this.state.data.yt_trailer_code}?autoplay=0&showinfo=0&frameborder="0"&controls=1&loop=1&modestbranding=1&iv_load_policy=3&theme=light&color=white"`}
                 allowFullScreen={true}
                 title="Trailer"
@@ -589,7 +613,8 @@ class Movie extends Component {
                                   }
                                   alt=""
                                   onError={(e) =>
-                                    (e.target.src = require("../../data/svg/person.svg").default)
+                                    (e.target.src =
+                                      require("../../data/svg/person.svg").default)
                                   }
                                 />
                                 <div className={Styles.popup_about_real_name}>

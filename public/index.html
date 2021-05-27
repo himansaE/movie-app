@@ -7,7 +7,8 @@
       name="viewport"
       content="width=device-width, initial-scale=1, user-scalable=no"
     />
-    <meta name="theme-color" content="#393939" />
+    <meta name="theme-color" content="#393939" data-react-helmet="true" />
+    <meta name="color-scheme" content="dark light" />
     <link
       rel="apple-touch-icon"
       sizes="180x180"
@@ -27,9 +28,9 @@
     />
     <meta
       name="description"
-      content="Download Movies fast and easy with MovieApp(use YIFY API)"
+      content="Download Movies fast and easy with MovieApp"
     />
-    <meta property="og:title" content="MovieApp" />
+    <meta property="og:title" content="MovieApp" data-react-helmet="true" />
     <meta
       property="og:description"
       content="Download movies easy with MovieApp"
@@ -37,13 +38,19 @@
     <meta
       property="og:image"
       content="%PUBLIC_URL%/android-chrome-192x192.png"
+      data-react-helmet="true"
     />
     <meta name="twitter:card" content="app" />
     <meta name="twitter:creator" content="@EshanHimasa" />
-    <meta name="twitter:text:title" content="MovieApp" />
+    <meta
+      name="twitter:text:title"
+      content="MovieApp"
+      data-react-helmet="true"
+    />
     <meta
       name="twitter:image"
       content="%PUBLIC_URL%/android-chrome-192x192.png"
+      data-react-helmet="true"
     />
     <link
       rel="search"
@@ -66,7 +73,7 @@
       work correctly both with client-side routing and a non-root public URL.
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
-    <title>Movies!</title>
+
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",

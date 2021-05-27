@@ -6,7 +6,8 @@ import cssClass from "../../functions/extra/cssClass";
 import Styles from "./auth.module.css";
 import Loader from "../../data/svg/loader";
 import { I_CLOSE } from "../../data/svg/svg";
-export default class Signup extends Component {
+import { withRouter } from "react-router-dom/cjs/react-router-dom.min";
+class Signup extends Component {
   constructor() {
     super();
     this.state = {
@@ -17,9 +18,12 @@ export default class Signup extends Component {
     };
   }
   componentDidMount() {
+    console.log(this.props);
     firebase.auth().onAuthStateChanged(() => {
       if (firebase.auth().currentUser) {
-        this.props.history.push("/");
+        this.props.history.replace(
+          this.props.history.location.state?.curr_path ?? "/"
+        );
       }
     });
   }
@@ -126,3 +130,5 @@ export default class Signup extends Component {
     );
   }
 }
+
+export default withRouter(Signup);

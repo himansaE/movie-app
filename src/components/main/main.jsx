@@ -12,9 +12,7 @@ export function MovieList(props) {
       {props.link ? (
         <div style={{ display: "flex" }} className={Styles.url_head}>
           <Link to={props.link}>
-            <h1 className={Styles.title}>{props.title}</h1>
-          </Link>
-          <Link to={props.link} title={props.title}>
+            <h1 className={Styles.title}>{props.title}</h1>{" "}
             <div className={Styles.next_icon}>
               <I_NEXT />
             </div>
@@ -53,7 +51,8 @@ export function MovieList(props) {
                     className={Styles.card_image}
                     loading={props.link ? "lazy" : "eager"}
                     onError={(e) => {
-                      e.target.src = require("../../data/img/empty.png").default;
+                      e.target.src =
+                        require("../../data/img/empty.png").default;
                       e.target.style.backgroundImage = `url(${
                         require("../../data/img/icon-movie-64.png").default
                       })`;
@@ -142,7 +141,7 @@ export default class Main extends Component {
   render() {
     if (this.state.error) return <ConnectionError />;
     return (
-      <div className={Styles.main}>
+      <div className={Styles.main} tabIndex="-1">
         {this.state.loadedData.map((i) => {
           return (
             <MovieList

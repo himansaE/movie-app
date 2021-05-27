@@ -56,6 +56,8 @@
     margin-right: 2vw;
     user-select: none;
     color: #6bffdc;
+    background-color: transparent !important;
+    outline-offset: 6px;
 }
 
 ._logo_:hover .logo {
@@ -67,6 +69,17 @@
 .navbar a {
     text-decoration: none;
     color: inherit;
+    border-radius: 22em;
+    outline: none;
+    padding: 4px 0;
+}
+
+.navbar a:focus {
+    background-color: #1313132b;
+}
+
+._logo_:focus {
+    outline: auto !important;
 }
 
 .searchbar {
@@ -83,6 +96,13 @@
 .searchbar a {
     height: 32px;
     width: 32px;
+    outline: none;
+    border-radius: 50%;
+    padding: 0;
+}
+
+.searchbar a:focus {
+    background-color: #1313136b;
 }
 
 .searchIcon {
@@ -112,7 +132,7 @@
 }
 
 .userIcon:focus {
-    box-shadow: 0 0 6px black;
+    background-color: #1313136b;
 }
 
 .userIcon:hover {
@@ -161,7 +181,7 @@
 }
 
 @media all and (display-mode: standalone) {
-    .back_btn {
+    .back_btn.back_btn_show {
         display: flex;
         margin-left: 0;
     }

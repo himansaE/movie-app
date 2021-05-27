@@ -26,3 +26,8 @@ exports.onDeleteAccount = functions.auth.user().onDelete((e) => {
     .then((r) => e)
     .catch((r) => console.error("Error", r));
 });
+
+exports.userAgent = functions.https.onRequest((req, res) => {
+  const agents = req.headers["user-agent"];
+  functions.logger.log(agents);
+});

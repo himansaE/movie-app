@@ -18,12 +18,19 @@ export default class Login extends Component {
       error_text: "",
     };
   }
+
   componentDidMount() {
-    firebase.auth().onAuthStateChanged(() => {
+    this.fbAuthEvent = () => {};
+    this.fbAuthEvent = firebase.auth().onAuthStateChanged(() => {
       if (firebase.auth().currentUser) {
-        this.props.history.push("/");
+        this.props.history.replace(
+          this.props.history.location.state?.curr_path ?? "/"
+        );
       }
     });
+  }
+  componentWillUnmount() {
+    this.fbAuthEvent();
   }
 
   render() {

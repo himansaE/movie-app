@@ -19,6 +19,7 @@ import { Select } from "../input/index";
 import CANT_FIND from "../../data/svg/cant-find.json";
 import CONNECTION_ERROR from "../../data/svg/connection-error.json";
 import { Link } from "react-router-dom";
+import { Helmet } from "react-helmet";
 class Search extends Component {
   constructor() {
     super();
@@ -72,7 +73,6 @@ class Search extends Component {
     }
   };
   componentDidMount() {
-    document.title = "Search Movies";
     FBAnalytics("search");
     var query = this.getParm("query_term");
     this.setState({ value: query });
@@ -127,6 +127,18 @@ class Search extends Component {
   }
   changeLocation = (e) => {
     var query = this.getParm("query_term");
+    if (query === "")
+      this.setState({
+        hint: [],
+        box_focus: false,
+        page: 1,
+        result: [],
+        count: undefined,
+        still_loading: false,
+        filter: false,
+        error: false,
+        root_loading: false,
+      });
     this.setState({ value: query });
     if (query) {
       this.setState({ value: query });
@@ -228,6 +240,7 @@ class Search extends Component {
   render() {
     return (
       <section className={Styles.section} ref={this.top_node}>
+        <Helmet title="Search Movie"></Helmet>
         <div className={Styles.container}>
           <div
             className={
@@ -442,6 +455,9 @@ class Search extends Component {
                     value: this.state.clipboard,
                     clipboard: false,
                   });
+                  this.props.history.push(
+                    `/search?query_term=${encodeURI(this.state.clipboard)}`
+                  );
                 }}
               >
                 <I_CLIPBOARD w="19" />

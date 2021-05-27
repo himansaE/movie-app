@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import firebase from "../../functions/config/fbConfig";
-import { Link, Route, Switch } from "react-router-dom";
+import { Link, Route, Switch, withRouter } from "react-router-dom";
 import Styles from "./navbar.module.css";
-
+import { Helmet } from "react-helmet";
 import {
   I_SEARCH,
   I_USER_FILL,
@@ -19,11 +19,16 @@ class Navbar extends Component {
       userPOP: false,
       currentUser: false,
       showBack: false,
+      theme: true,
     };
   }
+
   componentDidMount() {
     this.authEvent = () => {};
     this.unlisten = this.props.history.listen((location, action) => {
+      if (this.props.history.length !== 0) {
+        this.setState({ showBack: true });
+      }
       if (window.location.pathname !== "/_verify")
         if (firebase.auth().currentUser) {
           if (!firebase.auth().currentUser.emailVerified) {
@@ -60,10 +65,26 @@ class Navbar extends Component {
       this.setState({ userPOP: false });
       //window.dispatchEvent(new Event("locationchange"));
     };
+    if (window.matchMedia) {
+      this.setState({
+        theme: window.matchMedia("(prefers-color-scheme: dark)").matches,
+      });
+      window
+        .matchMedia("(prefers-color-scheme: dark)")
+        .addEventListener("change", (e) => {
+          this.setState({ theme: e.matches });
+        });
+    }
   }
   render() {
     return (
       <header>
+        <Helmet>
+          <meta
+            name="theme-color"
+            content={this.state.theme ? "#393939" : "#ffffff"}
+          />
+        </Helmet>
         <nav>
           <div className={Styles.navbar}>
             <div
@@ -72,6 +93,10 @@ class Navbar extends Component {
                 this.state.showBack ? Styles.back_btn_show : ""
               )}
               role="button"
+              tabIndex="0"
+              onClick={() => {
+                if (this.state.showBack) this.props.history.goBack();
+              }}
             >
               <I_BACK_ARROW />
             </div>
@@ -122,10 +147,6 @@ class Navbar extends Component {
                 e.stopPropagation();
                 this.setState({ userPOP: !this.state.userPOP });
               }}
-              onFocus={(e) => {
-                e.stopPropagation();
-                this.setState({ userPOP: !this.state.userPOP });
-              }}
             >
               <I_USER_OUTLINE />
             </div>
@@ -136,6 +157,7 @@ class Navbar extends Component {
             className={Styles.userPOP_con}
             onClick={(e) => {
               e.stopPropagation();
+              this.setState({ userPOP: !this.state.userPOP });
             }}
           >
             <div className={Styles.toolbar}>
@@ -158,12 +180,28 @@ class Navbar extends Component {
                   </h1>
                   <div className={Styles.buttons}>
                     <div className={Styles.button}>
-                      <Link to="/login" onClick={this.lChangeT}>
+                      <Link
+                        to={{
+                          pathname: "/login",
+                          state: {
+                            curr_path: this.props.history.location.pathname,
+                          },
+                        }}
+                        onClick={this.lChangeT}
+                      >
                         Login
                       </Link>
                     </div>
                     <div className={Styles.button}>
-                      <Link to="/signup" onClick={this.lChangeT}>
+                      <Link
+                        to={{
+                          pathname: "/signup",
+                          state: {
+                            curr_path: this.props.history.location.pathname,
+                          },
+                        }}
+                        onClick={this.lChangeT}
+                      >
                         Create Account
                       </Link>
                     </div>
@@ -213,4 +251,4 @@ class Navbar extends Component {
     );
   }
 }
-export default Navbar;
+export default withRouter(Navbar);

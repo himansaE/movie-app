@@ -10,7 +10,7 @@ import firebase_code_to_text from "../../functions/extra/firebaseAuthErrorCodes"
 export default class ResetPass extends Component {
   constructor() {
     super();
-    if (firebase.auth().currentUser !== null) window.location.pathname = "/";
+    if (firebase.auth().currentUser !== null) this.props.history.replace("/");
     this.state = {
       error: false,
       email: "",
@@ -23,7 +23,7 @@ export default class ResetPass extends Component {
       email: new URLSearchParams(this.props.location.search).get("email"),
     });
     this.fbEVENT = firebase.auth().onAuthStateChanged((e) => {
-      if (firebase.auth().currentUser !== null) window.location.pathname = "/";
+      if (firebase.auth().currentUser !== null) this.props.history.replace("/");
     });
   }
   componentWillUnmount() {
