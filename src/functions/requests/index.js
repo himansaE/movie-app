@@ -66,6 +66,9 @@ function get_movie_details(obj) {
         throw Error("no result found");
       }
       return r.data.data.movie;
+    })
+    .catch((err) => {
+      throw Error("network err");
     });
 }
 function get_suggestions(id) {
