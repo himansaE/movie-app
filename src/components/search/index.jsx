@@ -14,12 +14,14 @@ import {
   I_HQ,
   I_ASC,
   I_CLIPBOARD,
+  I_ALERT,
 } from "../../data/svg/svg";
 import { Select } from "../input/index";
 import CANT_FIND from "../../data/svg/cant-find.json";
-import CONNECTION_ERROR from "../../data/svg/connection-error.json";
+import CONNECTION_ERROR from "../../data/svg/connection-error-in-search.json";
 import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet";
+
 class Search extends Component {
   constructor() {
     super();
@@ -72,6 +74,23 @@ class Search extends Component {
       });
     }
   };
+  observer_f = (e) => {
+    this.setState({ still_loading: true, after_err: false });
+    let dd = Object.assign(this.q, { page: this.state.page + 1 });
+
+    get_results(dd)
+      .then((r) => {
+        this.setState({
+          result: this.removeDup([...this.state.result, ...r.movies]),
+          count: r.movie_count,
+          page: r.page_number,
+          still_loading: false,
+        });
+      })
+      .catch(() => {
+        this.setState({ after_err: true, still_loading: false });
+      });
+  };
   componentDidMount() {
     FBAnalytics("search");
     var query = this.getParm("query_term");
@@ -103,21 +122,7 @@ class Search extends Component {
         e[0].intersectionRatio === 1 &&
         this.state.page * 20 < this.state.count
       ) {
-        this.setState({ still_loading: true, after_err: false });
-        let dd = Object.assign(this.q, { page: this.state.page + 1 });
-
-        get_results(dd)
-          .then((r) => {
-            this.setState({
-              result: this.removeDup([...this.state.result, ...r.movies]),
-              count: r.movie_count,
-              page: r.page_number,
-              still_loading: false,
-            });
-          })
-          .catch(() => {
-            this.setState({ after_err: true, still_loading: false });
-          });
+        this.observer_f(e);
       }
     }, options);
   }
@@ -535,12 +540,22 @@ class Search extends Component {
                 <Loader h="30" />
               </div>
             ) : this.state.after_err ? (
-              <div>
-                {
-                  //todo connection err
-                  <>coo</>
-                }
-                ef
+              <div className={Styles.loadError}>
+                <div className={Styles.ErrorName}>
+                  <I_ALERT h="18" />
+                  Connection error
+                </div>
+
+                <div
+                  className={Styles.reload_btn}
+                  onClick={() =>
+                    this.setState({ after_err: false }, () => {
+                      this.observer_f();
+                    })
+                  }
+                >
+                  Reload
+                </div>
               </div>
             ) : (
               <div></div>

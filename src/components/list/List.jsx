@@ -38,16 +38,9 @@ export default class List extends Component {
       title: "Most Downloaded Movies",
     },
   ];
-  componentDidMount() {
-    //decide about url ...
-    this.param = this.pages.filter(
-      (i) => i.path === this.props.match.params.data
-    );
-    if (this.param.length === 0) return this.setState({ data: "404" });
-    this.setState({ title: this.param[0].title }, () => {
-      document.title = this.state.title;
-      FBAnalytics("full-list");
-      get_chunk_results(this.param[0].param).then((r) =>
+  getData = () => {
+    get_chunk_results(this.param[0].param)
+      .then((r) =>
         this.setState(
           {
             data: r.data,
@@ -61,12 +54,24 @@ export default class List extends Component {
             }
           }
         )
-      );
-      this.observer = new IntersectionObserver(this.observe_f, {
-        root: this.container.current,
-        rootMargin: "0px",
-        threshold: 1.0,
-      });
+      )
+      .catch(() => this.setState({ data: false }));
+    this.observer = new IntersectionObserver(this.observe_f, {
+      root: this.container.current,
+      rootMargin: "0px",
+      threshold: 1.0,
+    });
+  };
+  componentDidMount() {
+    //decide about url ...
+    this.param = this.pages.filter(
+      (i) => i.path === this.props.match.params.data
+    );
+    if (this.param.length === 0) return this.setState({ data: "404" });
+    this.setState({ title: this.param[0].title }, () => {
+      document.title = this.state.title;
+      FBAnalytics("full-list");
+      this.getData();
     });
   }
   removeDup = (array = []) => {
@@ -78,24 +83,23 @@ export default class List extends Component {
       get_chunk_results({
         ...this.param[0].param,
         page: this.state.page + 1,
-      }).then((r) => {
-        if (r.name === "Error") {
-          return this.setState({ loadError: true, onWaiting: false });
-        }
-        this.setState(
-          {
-            data: this.removeDup([...this.state.data, ...r.data]),
-            page: r.page_number,
-            stillNeedToLoad: r.page_number * 20 < r.movie_count,
-            onWaiting: false,
-          },
-          () => {
-            if (r.page_number * 20 < r.movie_count) {
-              this.observer.observe(this.loader.current);
+      })
+        .then((r) => {
+          this.setState(
+            {
+              data: this.removeDup([...this.state.data, ...r.data]),
+              page: r.page_number,
+              stillNeedToLoad: r.page_number * 20 < r.movie_count,
+              onWaiting: false,
+            },
+            () => {
+              if (r.page_number * 20 < r.movie_count) {
+                this.observer.observe(this.loader.current);
+              }
             }
-          }
-        );
-      });
+          );
+        })
+        .catch(() => this.setState({ loadError: true, onWaiting: false }));
     }
   };
   render() {
@@ -114,7 +118,8 @@ export default class List extends Component {
           <Loader />
         </div>
       );
-    if (this.state.data === false) return <ConnectionError />;
+    if (this.state.data === false)
+      return <ConnectionError retry={this.getData} />;
     if (this.state.data === "404") return <Error404 />;
     return (
       <div style={{ overflowY: "auto" }} ref={this.container}>
@@ -135,7 +140,8 @@ export default class List extends Component {
                       src={i.medium_cover_image}
                       className={Styles.card_image}
                       onError={(e) => {
-                        e.target.src = require("../../data/img/empty.png").default;
+                        e.target.src =
+                          require("../../data/img/empty.png").default;
                         e.target.style.backgroundImage = `url(${
                           require("../../data/img/icon-movie-64.png").default
                         })`;

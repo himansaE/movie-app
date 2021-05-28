@@ -90,7 +90,6 @@ class Movie extends Component {
   };
 
   triggerXChange = () => {
-    console.log("popstart");
     var event = new CustomEvent("linkXChange", {
       detail: { id: this.props.match.params.data },
     });

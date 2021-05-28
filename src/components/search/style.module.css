@@ -320,3 +320,28 @@
     background-color: var(--card-background);
     color: var(--text-color);
 }
+
+.loadError {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.ErrorName {
+    display: flex;
+    color: var(--text-color);
+}
+
+.reload_btn {
+    user-select: none;
+    padding: 12px 15px;
+    border-radius: 4px;
+    color: #fd9494;
+    transition: 300ms;
+}
+
+.reload_btn:hover {
+    background-color: #fd949433;
+    color: var(--text-color);
+    max-width: fit-content;
+}

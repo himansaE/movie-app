@@ -35,18 +35,20 @@ export default class Watchlist extends Component {
         .then((r) => {
           if (r.length === 0) return this.setState({ Watchlist: [] });
           r.forEach((e) => {
-            get_movie_details({ id: e, cancelT: this.axiosToken }).then((d) => {
-              if (typeof this.state.Watchlist === "boolean")
-                return this.setState({ Watchlist: [d] });
-              else
-                return this.setState({
-                  Watchlist: [...this.state.Watchlist, d],
-                });
-            });
+            get_movie_details({ id: e, cancelT: this.axiosToken })
+              .then((d) => {
+                if (typeof this.state.Watchlist === "boolean")
+                  return this.setState({ Watchlist: [d] });
+                else
+                  return this.setState({
+                    Watchlist: [...this.state.Watchlist, d],
+                  });
+              })
+              .catch(() => this.setState({ error: true, Watchlist: true }));
           });
         })
         .catch(() => {
-          this.setState({ error: true });
+          this.setState({ error: true, Watchlist: true });
         });
     } else this.setState({ user: false });
   };
@@ -72,7 +74,7 @@ export default class Watchlist extends Component {
                 <Loader />
               </div>
             ) : this.state.error ? (
-              <ConnectionError />
+              <ConnectionError retry={this.data_get} />
             ) : (
               <div style={{ padding: "15px 10px" }}>
                 <h1 className={MStyle.title_name}>Watchlist</h1>

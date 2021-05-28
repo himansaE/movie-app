@@ -24,12 +24,10 @@ function get_results(q) {
     .get(`${torrent_api_domain}list_movies.json`, {
       params: q,
     })
-    .then((r) => r.data.data)
-    .catch((r) => r.toJSON());
+    .then((r) => r.data.data);
 }
 function get_chunk_results(q = {}) {
   q["limit"] = 20;
-  //console.log(q);
   return axios
     .get(`${torrent_api_domain}list_movies.json`, {
       params: q,
@@ -48,8 +46,7 @@ function get_chunk_results(q = {}) {
           };
         }),
       };
-    })
-    .catch((r) => r.toJSON());
+    });
 }
 function get_movie_details(obj) {
   return axios

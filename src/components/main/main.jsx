@@ -112,14 +112,11 @@ export default class Main extends Component {
       ],
     };
   }
-  componentDidMount() {
+  loadData = () => {
     this.state.pageData.forEach((i, n) => {
       if (!i.loaded) {
         get_chunk_results(i.params)
           .then((r) => {
-            if (r.name === "Error") {
-              return this.setState({ error: true });
-            }
             this.setState({
               loadedData: [
                 ...this.state.loadedData,
@@ -130,16 +127,20 @@ export default class Main extends Component {
                   return x;
                 })(),
               ],
+              error: false,
             });
           })
-          .catch((r) => console.log(r));
+          .catch((r) => this.setState({ error: true }));
       }
     });
     document.title = "Download Movies!";
     FBAnalytics("HOME");
+  };
+  componentDidMount() {
+    this.loadData();
   }
   render() {
-    if (this.state.error) return <ConnectionError />;
+    if (this.state.error) return <ConnectionError retry={this.loadData} />;
     return (
       <div className={Styles.main} tabIndex="-1">
         {this.state.loadedData.map((i) => {
