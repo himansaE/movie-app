@@ -250,6 +250,7 @@ a {
     grid-auto-flow: column;
     position: relative;
     scroll-behavior: smooth;
+    overflow-y: hidden;
 }
 
 .image_data_con::after,
@@ -368,6 +369,7 @@ a {
     left: 0;
     animation: popup_out 300ms;
     user-select: none;
+    z-index: 15;
 }
 
 @keyframes popup_out {
@@ -445,6 +447,7 @@ a {
     grid-gap: 15px;
     grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
     text-align: center;
+    padding-bottom: 80px;
 }
 
 .download_item {
@@ -586,7 +589,7 @@ a {
     top: 0;
     left: 0;
     background-color: var(--background);
-    z-index: 100;
+    z-index: 18;
 }
 
 .popup_about_head {
@@ -628,6 +631,7 @@ a {
 .popup_about_body {
     height: calc(100vh - 48px);
     overflow-x: auto;
+    padding-bottom: 80px;
 }
 
 .popup_about_item {
@@ -814,7 +818,7 @@ a {
     transition: 350ms;
     overflow: hidden;
     transition-delay: 50ms;
-    z-index: 120
+    z-index: 12
 }
 
 .shareBtn svg {

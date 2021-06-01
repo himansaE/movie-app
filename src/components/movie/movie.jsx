@@ -29,7 +29,7 @@ import {
   I_SHARE,
   I_BOOKMARK,
 } from "../../data/svg/svg";
-import { copy, hashToMagnet, snackbar } from "../../functions/torrent";
+import { copy, hashToMagnet } from "../../functions/torrent";
 import Error404 from "../404/Error404";
 import { MovieList } from "../main/main";
 import cssClass from "../../functions/extra/cssClass";
@@ -37,6 +37,7 @@ import Share from "../share/share";
 import { getLike, removeLike, setLike } from "../../functions/requests/FBReq";
 import { Helmet } from "react-helmet";
 import ConnectionError from "../ConnectionError/ConnectoinError";
+import { newNotification } from "../navbar/notification-listener";
 class Movie extends Component {
   constructor() {
     super();
@@ -282,7 +283,11 @@ class Movie extends Component {
               className={Styles.opt_item_c}
               onClick={() => {
                 if (!firebase.auth().currentUser)
-                  return snackbar("login to use this");
+                  return newNotification({
+                    text: "You need to login to use this",
+                    timeout: 5000,
+                    key: "login",
+                  });
 
                 if (!this.state.like) {
                   setLike(this.id, "like");
@@ -308,7 +313,11 @@ class Movie extends Component {
               className={Styles.opt_item_c}
               onClick={() => {
                 if (!firebase.auth().currentUser)
-                  return snackbar("login to use this");
+                  return newNotification({
+                    text: "You need to login to use this",
+                    timeout: 5000,
+                    key: "login",
+                  });
                 if (!this.state.watchList) {
                   setLike(this.id, "watchlist");
                   this.setState({ watchList: true });
@@ -460,6 +469,7 @@ class Movie extends Component {
             data={this.state.suggestions}
             align={"start"}
             trigger={true}
+            key={this.state.data.title}
           />
         </div>
         <>

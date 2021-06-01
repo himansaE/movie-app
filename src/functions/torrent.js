@@ -1,6 +1,7 @@
 import ReactDOMServer from "react-dom/server";
 import React from "react";
-
+import { newNotification } from "../components/navbar/notification-listener";
+import Style from "../components/navbar/navbar.module.css";
 const trackerList = [
   "udp://open.demonii.com:1337/announce",
   "udp://tracker.openbittorrent.com:80",
@@ -32,7 +33,7 @@ export function copy(text) {
   } catch {
     try {
       var elem = ReactDOMServer.renderToStaticMarkup(
-        <textarea style={{ display: "none" }}>{text}</textarea>
+        <textarea style={{ display: "none" }} defaultValue={text}></textarea>
       );
       document.body.appendChild(elem);
       elem.focus();
@@ -45,24 +46,20 @@ export function copy(text) {
     }
   }
   if (done) {
-    snackbar("Copied url Successful.");
+    newNotification({
+      text: "Link copied",
+      timeout: 3000,
+      key: "copy",
+    });
   } else {
-    snackbar("Can't copy url");
+    return newNotification({
+      text: "Can't copy link",
+      timeout: 7000,
+      key: "copy",
+      desc: (
+        <div className={Style.copy_bx_line}>Something wrong with browser</div>
+      ),
+      expandable: true,
+    });
   }
-}
-export function snackbar(text) {
-  var elem = ReactDOMServer.renderToStaticMarkup(
-    <div className="snackbar_con">{text}</div>
-  );
-  var old = document.getElementById("snackbar");
-  if (old) old.remove();
-  var con = document.createElement("div");
-  con.id = "snackbar";
-  con.style.display = "flex";
-  con.style.placeContent = "center";
-  con.innerHTML = elem;
-  document.body.appendChild(con);
-  con.querySelector(".snackbar_con").addEventListener("animationend", () => {
-    document.body.removeChild(con);
-  });
 }

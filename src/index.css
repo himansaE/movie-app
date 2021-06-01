@@ -16,6 +16,7 @@
   --bottom-nav-color: #ff9191;
   --line-loader-bg: rgb(27, 105, 31);
   --icon-color: #d4d4d4;
+  --notification-background: rgb(29, 29, 29);
 }
 
 @media (prefers-color-scheme: light) {
@@ -36,6 +37,7 @@
     --bottom-nav-color: #7d2626;
     --line-loader-bg: rgb(27, 105, 31);
     --icon-color: #383232;
+    --notification-background: rgb(255, 255, 255);
   }
 }
 
@@ -96,6 +98,10 @@ code {
   border-radius: 5px;
 }
 
+* {
+  scrollbar-width: thin;
+}
+
 .snackbar_con {
   position: fixed;
   animation: snackbar 4s;
@@ -103,7 +109,7 @@ code {
   color: var(--text-color-dim);
   bottom: 6px;
   transform: translateY(120%);
-  width: calc(100% - 30px);
+  width: calc(100% - 64px);
   padding: 10px 30px;
   overflow: hidden;
   border-radius: 6px;
@@ -112,6 +118,8 @@ code {
   box-shadow: 2px 0 13px #00000042;
   font-family: "product sans";
   font-size: 1.1em;
+  max-width: 400px;
+  margin: 0 34px;
 }
 
 @keyframes snackbar {

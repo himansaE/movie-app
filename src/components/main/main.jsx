@@ -29,7 +29,7 @@ export function MovieList(props) {
       >
         {props.data.map((i, n) => {
           return (
-            <div key={n} className={Styles.card}>
+            <div key={i.id} className={Styles.card}>
               <Link
                 to={
                   //todo :: change to imdb id

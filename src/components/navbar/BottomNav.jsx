@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { NavLink } from "react-router-dom";
 import { I_MOVIE, I_BOOKMARK, I_SETTINGS } from "../../data/svg/svg";
 import Styles from "./navbar.module.css";
+import NotificationListener from "./notification-listener";
 
 export default class BottomNav extends Component {
   render() {
@@ -37,6 +38,8 @@ export default class BottomNav extends Component {
           </nav>
         </div>
         <div className={Styles.b_nav_fake}></div>
+
+        <NotificationListener />
       </>
     );
   }
